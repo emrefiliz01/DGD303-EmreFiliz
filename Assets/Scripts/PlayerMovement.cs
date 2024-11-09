@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform leftEdge;
     public Transform rightEdge;
+    public Transform topEdge;
+    public Transform bottomEdge;
 
     private float targetRotationY = 0f;
     private Vector2 movement;
@@ -28,13 +30,14 @@ public class PlayerMovement : MonoBehaviour
         Vector3 targetPosition = transform.position + (Vector3)movement * moveSpeed * Time.deltaTime;
 
         targetPosition.x = Mathf.Clamp(targetPosition.x, leftEdge.position.x, rightEdge.position.x);
+        targetPosition.y = Mathf.Clamp(targetPosition.y, bottomEdge.position.y, topEdge.position.y);
 
         transform.position = targetPosition;
 
         if (moveX < 0)
         {
             targetRotationY = -30f;
-        }
+        }   
         else if (moveX > 0)
         {
             targetRotationY = 30f;
