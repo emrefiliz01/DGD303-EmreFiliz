@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletBehaviour : MonoBehaviour
 {
     [SerializeField] private float bulletSpeed;
+    [SerializeField] private int bulletDamage;
     void Start()
     {
 
@@ -27,6 +28,8 @@ public class BulletBehaviour : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
+            collision.GetComponent<EnemyBehaviour>().Test(bulletDamage);
+
             Destroy(gameObject);
         }
 

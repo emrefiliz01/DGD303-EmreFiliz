@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 10
+  bulletDamage: 20
 --- !u!61 &4021760346218590999
 BoxCollider2D:
   m_ObjectHideFlags: 0
