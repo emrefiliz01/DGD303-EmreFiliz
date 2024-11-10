@@ -18,7 +18,7 @@ public class EnemyBehaviour : MonoBehaviour
         fillImage.fillAmount = 1f;
     }
 
-    public void Test(int bulletDamage)
+    public void TakeDamage(int bulletDamage)
     {
 
         currentHealth = currentHealth - bulletDamage;
