@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShooter : MonoBehaviour
+public class EnemyShooter : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject bulletContainer;
@@ -13,15 +13,11 @@ public class PlayerShooter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
+        if (canShoot)
         {
-            if (canShoot)
-            {
-                StartCoroutine(FireBulletCoroutine());
-            }           
+            StartCoroutine(FireBulletCoroutine());
         }
     }
-
     private IEnumerator FireBulletCoroutine()
     {
         canShoot = false;
@@ -29,7 +25,7 @@ public class PlayerShooter : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, bulletContainer.transform);
         BulletBehaviour bulletBehaviour = bullet.GetComponent<BulletBehaviour>();
         bulletBehaviour.SetPosition(bulletSpawnPoint.transform.position);
-        bulletBehaviour.SetDirection(transform.up);
+        bulletBehaviour.SetDirection(transform.up * -1f);
 
         yield return new WaitForSeconds(bulletDelay);
 

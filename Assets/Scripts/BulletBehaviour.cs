@@ -6,6 +6,8 @@ public class BulletBehaviour : MonoBehaviour
 {
     [SerializeField] private float bulletSpeed;
     [SerializeField] private int bulletDamage;
+
+    private Vector3 direction;
     void Start()
     {
 
@@ -13,8 +15,10 @@ public class BulletBehaviour : MonoBehaviour
 
     void Update()
     {
-        transform.position += transform.up * Time.deltaTime * bulletSpeed;
-
+        if (direction != null)
+        {
+            transform.position += direction * Time.deltaTime * bulletSpeed;
+        }
     }
 
     public void SetPosition(Vector3 bulletSpawnPoint)
@@ -22,13 +26,18 @@ public class BulletBehaviour : MonoBehaviour
         transform.position = bulletSpawnPoint;
     }
 
-        
+    public void SetDirection(Vector3 directionMove)
+    {
+        direction = directionMove;
+    }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
             collision.GetComponent<EnemyBehaviour>().Test(bulletDamage);
+
+            
 
             Destroy(gameObject);
         }
