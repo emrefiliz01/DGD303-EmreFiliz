@@ -1277,6 +1277,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 107403122, guid: 2b088c32fd52bdd419382e24963927fb, type: 3}
+      propertyPath: bulletDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 107403122, guid: 2b088c32fd52bdd419382e24963927fb, type: 3}
       propertyPath: bulletContainer
       value: 
       objectReference: {fileID: 1932758405}
