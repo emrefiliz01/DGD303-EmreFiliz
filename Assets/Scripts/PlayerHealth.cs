@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] private float maxHealth;
     [SerializeField] private Image fillImage;
+    [SerializeField] private GameObject deathEffect;
 
     private float currentHealth;
 
@@ -25,7 +26,17 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0f)
         {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        if(deathEffect != null)
+        {
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
     }
 }

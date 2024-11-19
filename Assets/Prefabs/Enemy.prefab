@@ -447,6 +447,7 @@ MonoBehaviour:
   maxHealth: 100
   fillImage: {fileID: 4567631600485131770}
   spaceCoinPrefab: {fileID: 1089533122037922711, guid: 14bb77b10f8ea7e4bb5dfbe2b291c61c, type: 3}
+  deathEffect: {fileID: 9095844293546026973, guid: 93bb543efcde0b042b8a23d38a08d533, type: 3}
 --- !u!114 &107403122
 MonoBehaviour:
   m_ObjectHideFlags: 0
