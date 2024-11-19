@@ -42,6 +42,13 @@ public class BulletBehaviour : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.GetComponent<PlayerHealth>().TakeDamage(bulletDamage);
+
+            Destroy(gameObject);
+        }
+
         if (collision.gameObject.tag == "BulletDestroyer")
         {
             Destroy(gameObject);
