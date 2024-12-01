@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     private float targetRotationY = 0f;
     private Vector2 movement;
+
+    public Text WINTEXT;
 
     void Update()
     {
@@ -51,5 +54,14 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation,
             Quaternion.Euler(0f, targetRotationY, 0f),
             rotationSpeed * Time.deltaTime);
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Win")
+        {
+            WINTEXT.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
     }
 }

@@ -41,8 +41,6 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void CreateSpaceCoins()
     {
-        Debug.Log("Space coin oluþturuluyor...");
-
         for (int i = 0; i < 5; i++)
         {
             Vector3 randomPosition = transform.position + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f);
@@ -50,10 +48,6 @@ public class EnemyBehaviour : MonoBehaviour
             GameObject coin = Instantiate(spaceCoinPrefab, randomPosition, Quaternion.identity);
 
             coin.transform.position = new Vector3(coin.transform.position.x, coin.transform.position.y, 0f);
-
-            Debug.Log("Coin oluþturuldu: " + coin.transform.position);
         }
-
-        Debug.Log("Space coin'ler oluþturuldu.");
     }
 }
