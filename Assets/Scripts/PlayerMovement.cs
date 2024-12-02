@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
 
     public Text WINTEXT;
+    public Button NextLevelButton;
+    public string nextSceneName;
 
     void Update()
     {
@@ -61,7 +63,13 @@ public class PlayerMovement : MonoBehaviour
         if (collision.tag == "Win")
         {
             WINTEXT.gameObject.SetActive(true);
+            NextLevelButton.gameObject.SetActive(true);
+
             Time.timeScale = 0;
         }
+    }
+    public void NextLevel()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
     }
 }
