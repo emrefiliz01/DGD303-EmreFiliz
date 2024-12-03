@@ -68,8 +68,8 @@ public class PlayerMovement : MonoBehaviour
             Time.timeScale = 0;
         }
     }
-    public void NextLevel()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
-    }
+    //public void NextLevel()
+    //{
+    //    UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+    //}
 }

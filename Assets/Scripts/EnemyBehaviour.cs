@@ -48,13 +48,12 @@ public class EnemyBehaviour : MonoBehaviour
 
             GameObject coin = Instantiate(spaceCoinPrefab, randomPosition, Quaternion.identity, backgroundParent.transform);
 
+            // Set coin scales
             float scaleX = coin.transform.localScale.x / backgroundParent.transform.localScale.x;
             float scaleY = coin.transform.localScale.y / backgroundParent.transform.localScale.y;
 
             Vector3 targetScale = new Vector3(scaleX, scaleY, 1);
             coin.transform.localScale = targetScale;
-
-           // coin.transform.localScale = new Vector3(coin.transform.localScale.x / backgroundParent.transform.localScale.x, coin.transform.localScale.y / backgroundParent.transform.localScale.y, 1);
 
             coin.transform.position = new Vector3(coin.transform.position.x, coin.transform.position.y, 0f);
         }
