@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerCollisionHandler : MonoBehaviour
 {
+    [SerializeField] private CoinManager coinManager;
     void Start()
     {
         
@@ -18,6 +19,8 @@ public class PlayerCollisionHandler : MonoBehaviour
     {
         if (collision.gameObject.tag == "Collectible")
         {
+            coinManager.AddCoin(1);
+
             Destroy(collision.gameObject);
         }
     }

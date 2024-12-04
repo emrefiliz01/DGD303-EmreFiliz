@@ -11,6 +11,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private GameObject spaceCoinPrefab;
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private GameObject backgroundParent;
+    [SerializeField] private CoinManager coinManager;
 
     private float currentHealth;
 
@@ -56,6 +57,8 @@ public class EnemyBehaviour : MonoBehaviour
             coin.transform.localScale = targetScale;
 
             coin.transform.position = new Vector3(coin.transform.position.x, coin.transform.position.y, 0f);
+
+            coinManager.AddCoin(1);
         }
     }
 }
