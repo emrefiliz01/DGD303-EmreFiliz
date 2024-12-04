@@ -6,14 +6,19 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> levelList;
     [SerializeField] private int targetLevel = 0;
+    [SerializeField] private PlayerMovement playerMovement;
 
 
-    // start is called before the first frame update
     void Start()
+    {
+        LoadLevel();
+    }
+
+    private void LoadLevel()
     {
         for (int i = 0; i < levelList.Count; i++)
         {
-            if(i == targetLevel)
+            if (i == targetLevel)
             {
                 levelList[i].SetActive(true);
             }
@@ -24,10 +29,19 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    public void NextLevel()
     {
+        playerMovement.HideWinUI();
+
+        targetLevel++;
         
+        if(targetLevel >= levelList.Count)
+        {
+            targetLevel= 0;
+        }
+
+        LoadLevel();
+
+        Time.timeScale = 1;
     }
 }

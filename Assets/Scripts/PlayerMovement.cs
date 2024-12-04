@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
 
+    [SerializeField] private Text WINTEXT;
+    [SerializeField] private Button NextLevelButton;
+    [SerializeField] private LevelManager levelManager;
+
     public Transform leftEdge;
     public Transform rightEdge;
     public Transform topEdge;
@@ -16,10 +20,10 @@ public class PlayerMovement : MonoBehaviour
     private float targetRotationY = 0f;
     private Vector2 movement;
 
-    public Text WINTEXT;
-    public Button NextLevelButton;
-    public string nextSceneName;
-
+    private void Start()
+    {
+        NextLevelButton.onClick.AddListener(levelManager.NextLevel);
+    }
     void Update()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
@@ -68,8 +72,10 @@ public class PlayerMovement : MonoBehaviour
             Time.timeScale = 0;
         }
     }
-    //public void NextLevel()
-    //{
-    //    UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
-    //}
+    public void HideWinUI()
+    {
+        // Kazanma UI'sini gizle
+        WINTEXT.gameObject.SetActive(false);
+        NextLevelButton.gameObject.SetActive(false);
+    }
 }
