@@ -8,14 +8,21 @@ public class EnemyShooter : MonoBehaviour
     [SerializeField] private GameObject bulletContainer;
     [SerializeField] private GameObject bulletSpawnPoint;
     [SerializeField] private float bulletDelay;
+    [SerializeField] private float range;
+    [SerializeField] private Transform player;
 
     private bool canShoot = true;
 
     void Update()
     {
-        if (canShoot)
+        if (player != null)
         {
-            StartCoroutine(FireBulletCoroutine());
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+            if (distanceToPlayer <= range && canShoot)
+            {
+                StartCoroutine(FireBulletCoroutine());
+            }
         }
     }
     private IEnumerator FireBulletCoroutine()
@@ -25,7 +32,7 @@ public class EnemyShooter : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, bulletContainer.transform);
         BulletBehaviour bulletBehaviour = bullet.GetComponent<BulletBehaviour>();
         bulletBehaviour.SetPosition(bulletSpawnPoint.transform.position);
-        bulletBehaviour.SetDirection(transform.up * -1f);
+        bulletBehaviour.SetDirection(Vector3.down);
 
         yield return new WaitForSeconds(bulletDelay);
 

@@ -74,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void HideWinUI()
     {
-        // Kazanma UI'sini gizle
         WINTEXT.gameObject.SetActive(false);
         NextLevelButton.gameObject.SetActive(false);
     }
