@@ -448,6 +448,8 @@ MonoBehaviour:
   fillImage: {fileID: 4567631600485131770}
   spaceCoinPrefab: {fileID: 1089533122037922711, guid: 14bb77b10f8ea7e4bb5dfbe2b291c61c, type: 3}
   deathEffect: {fileID: 9095844293546026973, guid: 93bb543efcde0b042b8a23d38a08d533, type: 3}
+  backgroundParent: {fileID: 0}
+  coinManager: {fileID: 0}
 --- !u!114 &107403122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,6 +466,8 @@ MonoBehaviour:
   bulletContainer: {fileID: 0}
   bulletSpawnPoint: {fileID: 4567631600489061302}
   bulletDelay: 1.5
+  range: 9
+  player: {fileID: 0}
 --- !u!1 &4567631601925045073
 GameObject:
   m_ObjectHideFlags: 0
