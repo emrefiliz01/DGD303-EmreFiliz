@@ -7,12 +7,17 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<GameObject> levelList;
     [SerializeField] private int targetLevel = 0;
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private GameObject mainMenuCanvas;
 
 
     void Start()
     {
-        targetLevel = PlayerPrefs.GetInt("SavedLevel", 0);
-        LoadLevel();
+        mainMenuCanvas.SetActive(true);
+    }
+    public void StartGame()
+    {
+        mainMenuCanvas.SetActive(false);
+        LoadSavedLevel();
     }
 
     private void LoadLevel()
@@ -51,9 +56,21 @@ public class LevelManager : MonoBehaviour
 
     public void ResetProgress()
     {
-        // Kaydý sýfýrlamak için
         PlayerPrefs.DeleteKey("SavedLevel");
         targetLevel = 0;
         LoadLevel();
+    }
+
+    public void LoadSavedLevel()
+    {
+        targetLevel = PlayerPrefs.GetInt("SavedLevel", 0);
+        LoadLevel();
+        Time.timeScale = 1;
+    }
+    public void RestartGame()
+    {
+        mainMenuCanvas.SetActive(false);
+        LoadLevel();
+        Time.timeScale = 1;
     }
 }
