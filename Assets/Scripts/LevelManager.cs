@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        targetLevel = PlayerPrefs.GetInt("SavedLevel", 0);
         LoadLevel();
     }
 
@@ -40,8 +41,19 @@ public class LevelManager : MonoBehaviour
             targetLevel= 0;
         }
 
+        PlayerPrefs.SetInt("SavedLevel", targetLevel);
+        PlayerPrefs.Save();
+
         LoadLevel();
 
         Time.timeScale = 1;
+    }
+
+    public void ResetProgress()
+    {
+        // Kaydý sýfýrlamak için
+        PlayerPrefs.DeleteKey("SavedLevel");
+        targetLevel = 0;
+        LoadLevel();
     }
 }
