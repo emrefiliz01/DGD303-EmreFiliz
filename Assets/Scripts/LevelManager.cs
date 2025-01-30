@@ -17,6 +17,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject shopCanvas;
     [SerializeField] private GameObject shopPanel;
 
+    [SerializeField] private PlayerStats playerStats;
+
     void Start()
     {
         mainMenuCanvas.SetActive(true);
@@ -24,6 +26,7 @@ public class LevelManager : MonoBehaviour
         shopCanvas.SetActive(false);
         shopPanel.SetActive(false);
 
+        LoadProgress();
         LoadSavedLevel();
     }
 
@@ -31,6 +34,7 @@ public class LevelManager : MonoBehaviour
     {
         mainMenuCanvas.SetActive(false);
         LoadSavedLevel();
+        LoadProgress();
         LoadLevel();
         AdjustCameraAndBackground();
     }
@@ -97,7 +101,23 @@ public class LevelManager : MonoBehaviour
     private void SaveProgress()
     {
         PlayerPrefs.SetInt("SavedLevel", targetLevel);
+        PlayerPrefs.SetInt("Coins", playerStats.coins);
+        PlayerPrefs.SetInt("Damage", playerStats.damage);
+        PlayerPrefs.SetInt("MaxHealth", playerStats.maxHealth);
+        PlayerPrefs.SetFloat("MovementSpeed", playerStats.moveSpeed);
         PlayerPrefs.Save();
+        Debug.Log("Progress Saved!");
+    }
+
+    private void LoadProgress()
+    {
+        targetLevel = PlayerPrefs.GetInt("SavedLevel", 0);
+        playerStats.coins = PlayerPrefs.GetInt("Coins", playerStats.coins);
+        playerStats.damage = PlayerPrefs.GetInt("Damage", playerStats.damage);
+        playerStats.maxHealth = PlayerPrefs.GetInt("MaxHealth", playerStats.maxHealth);
+        playerStats.moveSpeed = PlayerPrefs.GetFloat("MovementSpeed", playerStats.moveSpeed);
+
+        Debug.Log("Progress Loaded!");
     }
 
     private void LoadSavedLevel()
@@ -109,6 +129,7 @@ public class LevelManager : MonoBehaviour
     {
         mainMenuCanvas.SetActive(false);
         LoadSavedLevel();
+        LoadProgress();
         LoadLevel();
         AdjustCameraAndBackground();
         Time.timeScale = 1;

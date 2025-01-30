@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour
     {
         shopCanvas.SetActive(false);
         upgradeMenuUI.SetActive(false);
+        LoadPlayerStats();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -82,6 +83,7 @@ public class ShopManager : MonoBehaviour
                     playerStats.coins -= cost;
                     playerStats.damage += 5;
                     Debug.Log("Damage upgrade purchased!");
+                    SavePlayerStats();
                 }
                 else
                 {
@@ -96,6 +98,7 @@ public class ShopManager : MonoBehaviour
                     playerStats.coins -= cost;
                     playerStats.maxHealth += 10;
                     Debug.Log("Health upgrade purchased!");
+                    SavePlayerStats();
                 }
                 else
                 {
@@ -110,6 +113,7 @@ public class ShopManager : MonoBehaviour
                     playerStats.coins -= cost;
                     playerStats.moveSpeed += 1;
                     Debug.Log("Movement speed upgrade purchased!");
+                    SavePlayerStats();
                 }
                 else
                 {
@@ -123,5 +127,33 @@ public class ShopManager : MonoBehaviour
         }
 
         UpdateCoinUI();
+    }
+
+    public void SavePlayerStats()
+    {
+        PlayerPrefs.SetInt("Coins", playerStats.coins);
+        PlayerPrefs.SetInt("Damage", playerStats.damage);
+        PlayerPrefs.SetInt("MaxHealth", playerStats.maxHealth);
+        PlayerPrefs.SetFloat("MovementSpeed", playerStats.moveSpeed);
+
+        PlayerPrefs.Save();
+        Debug.Log("Player stats saved!");
+    }
+
+    public void LoadPlayerStats()
+    {
+        if (PlayerPrefs.HasKey("Coins"))
+        {
+            playerStats.coins = PlayerPrefs.GetInt("Coins");
+            playerStats.damage = PlayerPrefs.GetInt("Damage");
+            playerStats.maxHealth = PlayerPrefs.GetInt("MaxHealth");
+            playerStats.moveSpeed = PlayerPrefs.GetFloat("MovementSpeed");
+
+            Debug.Log("Player stats loaded!");
+        }
+        else
+        {
+            Debug.Log("No saved data found.");
+        }
     }
 }

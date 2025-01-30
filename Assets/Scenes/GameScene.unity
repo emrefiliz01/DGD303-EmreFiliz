@@ -9800,6 +9800,7 @@ MonoBehaviour:
   bossLevelCameraSize: 6.5
   shopCanvas: {fileID: 557173100}
   shopPanel: {fileID: 1457802643}
+  playerStats: {fileID: 1865021265}
 --- !u!4 &1950004570
 Transform:
   m_ObjectHideFlags: 0
