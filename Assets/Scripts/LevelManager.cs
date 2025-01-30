@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private BackgroundBehaviour backgroundBehaviour;
-    [SerializeField] private Camera mainCamera;
+    [SerializeField] private GameObject winBossLevelUI;
 
     [SerializeField] private float defaultCameraSize = 5f;
     [SerializeField] private float bossLevelCameraSize = 7f;
@@ -17,55 +17,44 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         mainMenuCanvas.SetActive(true);
+        winBossLevelUI.SetActive(false);
     }
 
     public void StartGame()
     {
         mainMenuCanvas.SetActive(false);
-        LoadSavedLevel();
-
-        if (targetLevel == 4)
-        {
-            backgroundBehaviour.SetBossLevel(true);
-            Camera.main.orthographicSize = bossLevelCameraSize;
-        }
-        else
-        {
-            Camera.main.orthographicSize = defaultCameraSize;
-        }
+        targetLevel = 0;
+        LoadLevel();
+        AdjustCameraAndBackground();
     }
 
     private void LoadLevel()
     {
         for (int i = 0; i < levelList.Count; i++)
         {
-            if (i == targetLevel)
-            {
-                levelList[i].SetActive(true);
-            }
-            else
-            {
-                levelList[i].SetActive(false);
-            }
+            levelList[i].SetActive(i == targetLevel);
         }
     }
 
     public void NextLevel()
     {
         playerMovement.HideWinUI();
-
         targetLevel++;
 
         if (targetLevel >= levelList.Count)
         {
-            targetLevel = 0;
+            ShowWinUI();
+            return;
         }
 
-        PlayerPrefs.SetInt("SavedLevel", targetLevel);
-        PlayerPrefs.Save();
-
+        SaveProgress();
         LoadLevel();
+        AdjustCameraAndBackground();
+        Time.timeScale = 1;
+    }
 
+    private void AdjustCameraAndBackground()
+    {
         if (targetLevel == 4)
         {
             backgroundBehaviour.SetBossLevel(true);
@@ -76,28 +65,39 @@ public class LevelManager : MonoBehaviour
             backgroundBehaviour.SetBossLevel(false);
             Camera.main.orthographicSize = defaultCameraSize;
         }
-
-        Time.timeScale = 1;
     }
 
-    public void ResetProgress()
+    public void ShowWinUI()
     {
+        Debug.Log("Boss Defeated! You won the game!");
+        winBossLevelUI.SetActive(true);
         PlayerPrefs.DeleteKey("SavedLevel");
-        targetLevel = 0;
-        LoadLevel();
+        PlayerPrefs.Save();
+        Time.timeScale = 0;
     }
 
-    public void LoadSavedLevel()
+    public void ExitGame()
     {
-        targetLevel = PlayerPrefs.GetInt("SavedLevel", 0);
-        LoadLevel();
-        Time.timeScale = 1;
+        Debug.Log("Exiting Game...");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    private void SaveProgress()
+    {
+        PlayerPrefs.SetInt("SavedLevel", targetLevel);
+        PlayerPrefs.Save();
     }
 
     public void RestartGame()
     {
         mainMenuCanvas.SetActive(false);
         LoadLevel();
+        AdjustCameraAndBackground();
         Time.timeScale = 1;
     }
 }

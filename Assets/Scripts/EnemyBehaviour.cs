@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-
     [SerializeField] private float maxHealth;
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject spaceCoinPrefab;
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private GameObject backgroundParent;
     [SerializeField] private CoinManager coinManager;
+    [SerializeField] private bool isBoss = false;
+    private LevelManager levelManager;
 
     private float currentHealth;
 
@@ -19,15 +20,14 @@ public class EnemyBehaviour : MonoBehaviour
     {
         currentHealth = maxHealth;
         fillImage.fillAmount = 1f;
+
+        levelManager = FindObjectOfType<LevelManager>();
     }
 
     public void TakeDamage(int bulletDamage)
     {
-
-        currentHealth = currentHealth - bulletDamage;
-
+        currentHealth -= bulletDamage;
         fillImage.fillAmount = currentHealth / maxHealth;
-
 
         if (currentHealth <= 0f)
         {
@@ -38,18 +38,22 @@ public class EnemyBehaviour : MonoBehaviour
 
             CreateSpaceCoins();
 
+            if (isBoss && levelManager != null)
+            {
+                levelManager.ShowWinUI();
+            }
+
             Destroy(gameObject);
         }
     }
+
     private void CreateSpaceCoins()
     {
         for (int i = 0; i < 5; i++)
         {
             Vector3 randomPosition = transform.position + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f);
-
             GameObject coin = Instantiate(spaceCoinPrefab, randomPosition, Quaternion.identity, backgroundParent.transform);
 
-            // Set coin scales
             float scaleX = coin.transform.localScale.x / backgroundParent.transform.localScale.x;
             float scaleY = coin.transform.localScale.y / backgroundParent.transform.localScale.y;
 
@@ -57,7 +61,6 @@ public class EnemyBehaviour : MonoBehaviour
             coin.transform.localScale = targetScale;
 
             coin.transform.position = new Vector3(coin.transform.position.x, coin.transform.position.y, 0f);
-
             coinManager.AddCoin(1);
         }
     }
