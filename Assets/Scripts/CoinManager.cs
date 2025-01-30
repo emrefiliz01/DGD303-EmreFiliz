@@ -1,27 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
+    [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Text coinCountText;
-
-    private int coinCount = 0;
-
-    void Start()
-    {
-        UpdateCoinCountUI();
-    }
 
     public void AddCoin(int amount)
     {
-        coinCount += amount;
-        UpdateCoinCountUI();
+        if (playerStats != null)
+        {
+            playerStats.coins += amount;
+            Debug.Log("Coins: " + playerStats.coins);
+            UpdateCoinUI();
+        }
+        else
+        {
+            Debug.LogError("PlayerStats is not assigned in CoinManager.");
+        }
     }
 
-    private void UpdateCoinCountUI()
+
+    private void UpdateCoinUI()
     {
-        coinCountText.text = "Coins: " + coinCount.ToString();
+        if (coinCountText != null)
+        {
+            coinCountText.text = "Coins: " + playerStats.coins.ToString();
+        }
+        else
+        {
+            Debug.LogError("Coin Count Text UI is not assigned.");
+        }
     }
 }

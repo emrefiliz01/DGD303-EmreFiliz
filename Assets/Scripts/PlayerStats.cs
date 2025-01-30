@@ -9,4 +9,9 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Player Coins")]
     public int coins = 0;
+
+    public void AddCoins(int amount)
+    {
+        coins += amount;
+    }
 }

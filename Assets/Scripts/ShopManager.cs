@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +5,8 @@ public class ShopManager : MonoBehaviour
 {
     [SerializeField] private GameObject shopCanvas;
     [SerializeField] private GameObject upgradeMenuUI;
-
-    [SerializeField] private Button closeButton;
-    [SerializeField] private Button damageUpgradeButton;
-    [SerializeField] private Button healthUpgradeButton;
-    [SerializeField] private Button speedUpgradeButton;
-
-    [SerializeField] private Text coinCountText;
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private Text coinCountText;
 
     private bool isInShop = false;
 
@@ -22,13 +14,6 @@ public class ShopManager : MonoBehaviour
     {
         shopCanvas.SetActive(false);
         upgradeMenuUI.SetActive(false);
-
-        closeButton.onClick.AddListener(CloseShop);
-        damageUpgradeButton.onClick.AddListener(UpgradeDamage);
-        healthUpgradeButton.onClick.AddListener(UpgradeHealth);
-        speedUpgradeButton.onClick.AddListener(UpgradeSpeed);
-
-        UpdateCoinUI();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -48,17 +33,13 @@ public class ShopManager : MonoBehaviour
         {
             shopCanvas.SetActive(true);
             upgradeMenuUI.SetActive(true);
+            UpdateCoinUI();
             Debug.Log("Shop Panel is now visible!");
         }
         else
         {
             Debug.LogWarning("Upgrade Menu UI is not assigned.");
         }
-    }
-
-    void CloseShop()
-    {
-        HideUpgradeMenu();
     }
 
     public void HideUpgradeMenu()
@@ -76,56 +57,71 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    void UpgradeDamage()
+    public void UpdateCoinUI()
     {
-        if (playerStats.coins >= 50)
+        if (coinCountText != null)
         {
-            playerStats.coins -= 50;
-            playerStats.damage += 5;
-
-            UpdateCoinUI();
-            Debug.Log("Damage Upgraded! Current Damage: " + playerStats.damage);
+            coinCountText.text = "Coins: " + playerStats.coins.ToString();
         }
         else
         {
-            Debug.Log("Not enough coins for damage upgrade!");
+            Debug.LogWarning("Coin Count Text UI is not assigned.");
         }
     }
 
-    void UpgradeHealth()
+    public void BuyUpgrade(string upgradeType)
     {
-        if (playerStats.coins >= 100)
-        {
-            playerStats.coins -= 100;
-            playerStats.maxHealth += 10;
+        int cost = 0;
 
-            UpdateCoinUI();
-            Debug.Log("Health Upgraded! Current Health: " + playerStats.maxHealth);
-        }
-        else
+        switch (upgradeType)
         {
-            Debug.Log("Not enough coins for health upgrade!");
-        }
-    }
+            case "Damage":
+                cost = 30;
+                if (playerStats.coins >= cost)
+                {
+                    playerStats.coins -= cost;
+                    playerStats.damage += 5;
+                    Debug.Log("Damage upgrade purchased!");
+                }
+                else
+                {
+                    Debug.Log("Not enough coins for damage upgrade!");
+                }
+                break;
 
-    void UpgradeSpeed()
-    {
-        if (playerStats.coins >= 200)
-        {
-            playerStats.coins -= 200;
-            playerStats.moveSpeed += 1f;
+            case "Health":
+                cost = 50;
+                if (playerStats.coins >= cost)
+                {
+                    playerStats.coins -= cost;
+                    playerStats.maxHealth += 10;
+                    Debug.Log("Health upgrade purchased!");
+                }
+                else
+                {
+                    Debug.Log("Not enough coins for health upgrade!");
+                }
+                break;
 
-            UpdateCoinUI();
-            Debug.Log("Speed Upgraded! Current Speed: " + playerStats.moveSpeed);
-        }
-        else
-        {
-            Debug.Log("Not enough coins for speed upgrade!");
-        }
-    }
+            case "MovementSpeed":
+                cost = 100;
+                if (playerStats.coins >= cost)
+                {
+                    playerStats.coins -= cost;
+                    playerStats.moveSpeed += 1;
+                    Debug.Log("Movement speed upgrade purchased!");
+                }
+                else
+                {
+                    Debug.Log("Not enough coins for movement speed upgrade!");
+                }
+                break;
 
-    void UpdateCoinUI()
-    {
-        coinCountText.text = "Coins: " + playerStats.coins.ToString();
+            default:
+                Debug.LogWarning("Unknown upgrade type: " + upgradeType);
+                break;
+        }
+
+        UpdateCoinUI();
     }
 }

@@ -1564,7 +1564,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 200 Coins
+  m_Text: 100 Coins
 --- !u!222 &240584295
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1928,7 +1928,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 353837500}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 539460759}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: BuyUpgrade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Health
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &353837500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2614,7 +2626,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 50 Coins
+  m_Text: 30 Coins
 --- !u!222 &466310410
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2959,12 +2971,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopCanvas: {fileID: 557173100}
   upgradeMenuUI: {fileID: 1457802643}
-  closeButton: {fileID: 1939475902}
-  damageUpgradeButton: {fileID: 931181714}
-  healthUpgradeButton: {fileID: 353837499}
-  speedUpgradeButton: {fileID: 908552944}
-  coinCountText: {fileID: 1587315089}
   playerStats: {fileID: 1865021265}
+  coinCountText: {fileID: 1587315089}
 --- !u!1 &557173100
 GameObject:
   m_ObjectHideFlags: 0
@@ -3757,7 +3765,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100 Coins
+  m_Text: 50 Coins
 --- !u!222 &706854433
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4154,6 +4162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24e43d6a6e723d849a42fe1478b2623f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStats: {fileID: 1865021265}
   coinCountText: {fileID: 1587315089}
 --- !u!4 &882509772
 Transform:
@@ -4493,7 +4502,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 908552945}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 539460759}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: BuyUpgrade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MovementSpeed
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &908552945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4696,7 +4717,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 931181715}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 539460759}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: BuyUpgrade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Damage
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &931181715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7570,7 +7603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1457802644
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8998,7 +9031,6 @@ GameObject:
   - component: {fileID: 1865021263}
   - component: {fileID: 1865021262}
   - component: {fileID: 1865021261}
-  - component: {fileID: 1865021260}
   - component: {fileID: 1865021264}
   - component: {fileID: 1865021265}
   m_Layer: 0
@@ -9135,19 +9167,6 @@ MonoBehaviour:
   bulletContainer: {fileID: 1932758405}
   bulletSpawnPoint: {fileID: 2109172267}
   bulletDelay: 0.5
---- !u!114 &1865021260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865021254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e33ee2a9b6fd3c439db51123cbac6f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coinManager: {fileID: 882509771}
 --- !u!61 &1865021261
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9665,7 +9684,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1939475903}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 539460759}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: HideUpgradeMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1939475903
 MonoBehaviour:
   m_ObjectHideFlags: 0
