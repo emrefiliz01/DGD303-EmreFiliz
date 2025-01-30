@@ -4,47 +4,41 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] private Button musicButton;
-    [SerializeField] private Button soundButton;
+    [SerializeField] private Button exitButton;
+    [SerializeField] private Button creditsButton;
+    [SerializeField] private GameObject creditsPanel;
+    [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private AudioManager audioManager;
 
     void Start()
     {
-        if (audioManager == null)
-        {
-            Debug.LogError("AudioManager is NOT assigned in MainMenuManager!");
-        }
-        else
-        {
-            Debug.Log("AudioManager is assigned!");
-        }
-
-        musicButton.onClick.AddListener(ToggleMusic);
-        soundButton.onClick.AddListener(ToggleSound);
-    }
-
-    void ToggleMusic()
-    {
-        audioManager.ToggleMusic();
-    }
-
-    void ToggleSound()
-    {
-        audioManager.ToggleSound();
-    }
-
-    void StartGame()
-    {
         if (audioManager != null)
         {
-            audioManager.StopBackgroundMusic();
-        }
-        else
-        {
-            Debug.LogError("AudioManager is NULL in StartGame!");
+            audioManager.PlayBackgroundMusic();
         }
 
-        SceneManager.LoadScene("GameScene");
+        exitButton.onClick.AddListener(ExitGame);
+        creditsButton.onClick.AddListener(ShowCredits);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && creditsPanel.activeSelf)
+        {
+            HideCredits();
+        }
+    }
+
+    public void ShowCredits()
+    {
+        mainMenuPanel.SetActive(false);
+        creditsPanel.SetActive(true);
+    }
+
+    public void HideCredits()
+    {
+        creditsPanel.SetActive(false);
+        mainMenuPanel.SetActive(true);
     }
 
     void ExitGame()
@@ -52,7 +46,7 @@ public class MainMenuManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit(); // Quits the game in a build
+        Application.Quit(); // Quits the game in a build
 #endif
     }
 }

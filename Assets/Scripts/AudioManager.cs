@@ -5,21 +5,15 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip backgroundMusic;
     private AudioSource audioSource;
 
-    public bool isMusicOn = true;
-    public bool isSoundOn = true;
-
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        if (isMusicOn)
-        {
-            PlayBackgroundMusic();
-        }
+        PlayBackgroundMusic();
     }
 
     public void PlayBackgroundMusic()
     {
-        if (audioSource != null && backgroundMusic != null && isMusicOn)
+        if (audioSource != null && backgroundMusic != null)
         {
             audioSource.clip = backgroundMusic;
             audioSource.loop = true;
@@ -34,24 +28,4 @@ public class AudioManager : MonoBehaviour
             audioSource.Stop();
         }
     }
-
-    public void ToggleMusic()
-    {
-        isMusicOn = !isMusicOn;
-
-        if (isMusicOn)
-        {
-            PlayBackgroundMusic();
-        }
-        else
-        {
-            StopBackgroundMusic();
-        }
-    }
-
-    public void ToggleSound()
-    {
-        isSoundOn = !isSoundOn;
-    }
-
 }
