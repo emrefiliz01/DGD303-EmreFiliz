@@ -27,6 +27,11 @@ public class MainMenuManager : MonoBehaviour
         {
             HideCredits();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !creditsPanel.activeSelf)
+        {
+            ReturnToMainMenu();
+        }
     }
 
     public void ShowCredits()
@@ -39,6 +44,16 @@ public class MainMenuManager : MonoBehaviour
     {
         creditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        if (audioManager != null)
+        {
+            audioManager.StopBackgroundMusic();
+        }
+
+        SceneManager.LoadScene("GameScene");
     }
 
     void ExitGame()

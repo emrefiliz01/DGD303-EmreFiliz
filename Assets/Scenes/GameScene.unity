@@ -1369,6 +1369,7 @@ MonoBehaviour:
   exitButton: {fileID: 403702249}
   creditsButton: {fileID: 953020352}
   creditsPanel: {fileID: 68022418}
+  mainMenuPanel: {fileID: 973792710}
   audioManager: {fileID: 1010106859}
 --- !u!4 &216587369
 Transform:
