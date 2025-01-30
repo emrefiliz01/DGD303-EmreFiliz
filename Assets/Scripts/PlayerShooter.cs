@@ -9,16 +9,21 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private GameObject bulletSpawnPoint;
     [SerializeField] private float bulletDelay;
 
+    [SerializeField] private AudioClip laserSound;
+    private AudioSource audioSource;
+
     private bool canShoot = true;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0)) && canShoot)
         {
-            if (canShoot)
-            {
-                StartCoroutine(FireBulletCoroutine());
-            }           
+            StartCoroutine(FireBulletCoroutine());
         }
     }
 
@@ -30,6 +35,11 @@ public class PlayerShooter : MonoBehaviour
         BulletBehaviour bulletBehaviour = bullet.GetComponent<BulletBehaviour>();
         bulletBehaviour.SetPosition(bulletSpawnPoint.transform.position);
         bulletBehaviour.SetDirection(transform.up);
+
+        if (audioSource != null && laserSound != null)
+        {
+            audioSource.PlayOneShot(laserSound);
+        }
 
         yield return new WaitForSeconds(bulletDelay);
 

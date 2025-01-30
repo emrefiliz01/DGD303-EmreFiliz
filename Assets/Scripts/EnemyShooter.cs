@@ -11,7 +11,18 @@ public class EnemyShooter : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private Transform player;
 
+    [SerializeField] private AudioClip laserGunSound;
+    [SerializeField] private AudioSource audioSource;
+
     private bool canShoot = true;
+
+    void Start()
+    {
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
+    }
 
     void Update()
     {
@@ -25,6 +36,7 @@ public class EnemyShooter : MonoBehaviour
             }
         }
     }
+
     private IEnumerator FireBulletCoroutine()
     {
         canShoot = false;
@@ -33,6 +45,11 @@ public class EnemyShooter : MonoBehaviour
         BulletBehaviour bulletBehaviour = bullet.GetComponent<BulletBehaviour>();
         bulletBehaviour.SetPosition(bulletSpawnPoint.transform.position);
         bulletBehaviour.SetDirection(Vector3.down);
+
+        if (audioSource != null && laserGunSound != null)
+        {
+            audioSource.PlayOneShot(laserGunSound);
+        }
 
         yield return new WaitForSeconds(bulletDelay);
 

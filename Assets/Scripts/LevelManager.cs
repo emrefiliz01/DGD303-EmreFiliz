@@ -19,6 +19,8 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private PlayerStats playerStats;
 
+    [SerializeField] private AudioManager audioManager;
+
     void Start()
     {
         mainMenuCanvas.SetActive(true);
@@ -37,6 +39,8 @@ public class LevelManager : MonoBehaviour
         LoadProgress();
         LoadLevel();
         AdjustCameraAndBackground();
+
+        audioManager.PlayBackgroundMusic();
     }
 
     private void LoadLevel()
@@ -85,6 +89,8 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.DeleteKey("SavedLevel");
         PlayerPrefs.Save();
         Time.timeScale = 0;
+
+        audioManager.StopBackgroundMusic();
     }
 
     public void ExitGame()
@@ -133,6 +139,8 @@ public class LevelManager : MonoBehaviour
         LoadLevel();
         AdjustCameraAndBackground();
         Time.timeScale = 1;
+
+        audioManager.PlayBackgroundMusic();
     }
 
     public void ShowShopCanvas()
