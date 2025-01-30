@@ -6,26 +6,37 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-
-    [SerializeField] private float maxHealth;
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private Text gameOverText;
     [SerializeField] private Button restartButton;
 
+    private PlayerStats playerStats;
+    private float maxHealth;
     private float currentHealth;
 
     void Start()
     {
+        playerStats = FindObjectOfType<PlayerStats>();
+
+        if (playerStats != null)
+        {
+            maxHealth = playerStats.maxHealth;
+        }
+        else
+        {
+            Debug.LogWarning("PlayerStats not found! Using default max health.");
+            maxHealth = 100f;
+        }
+
         currentHealth = maxHealth;
-        fillImage.fillAmount = 1f;
+        UpdateHealthUI();
     }
+
     public void TakeDamage(int bulletDamage)
     {
-
-        currentHealth = currentHealth - bulletDamage;
-
-        fillImage.fillAmount = currentHealth / maxHealth;
+        currentHealth -= bulletDamage;
+        UpdateHealthUI();
 
         if (currentHealth <= 0f)
         {
@@ -33,19 +44,27 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void UpdateHealthUI()
+    {
+        if (fillImage != null)
+        {
+            fillImage.fillAmount = currentHealth / maxHealth;
+        }
+    }
+
     private void Die()
     {
-        if(deathEffect != null)
+        if (deathEffect != null)
         {
             Instantiate(deathEffect, transform.position, Quaternion.identity);
         }
 
-        if(gameOverText != null)
+        if (gameOverText != null)
         {
             gameOverText.gameObject.SetActive(true);
         }
 
-        if(restartButton!= null)
+        if (restartButton != null)
         {
             restartButton.gameObject.SetActive(true);
         }
@@ -57,7 +76,6 @@ public class PlayerHealth : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
         Destroy(gameObject);
     }
 }

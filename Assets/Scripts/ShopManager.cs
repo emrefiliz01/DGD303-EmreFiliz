@@ -15,6 +15,7 @@ public class ShopManager : MonoBehaviour
         shopCanvas.SetActive(false);
         upgradeMenuUI.SetActive(false);
         LoadPlayerStats();
+        UpdateCoinUI();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -73,6 +74,7 @@ public class ShopManager : MonoBehaviour
     public void BuyUpgrade(string upgradeType)
     {
         int cost = 0;
+        bool purchased = false;
 
         switch (upgradeType)
         {
@@ -82,8 +84,8 @@ public class ShopManager : MonoBehaviour
                 {
                     playerStats.coins -= cost;
                     playerStats.damage += 5;
-                    Debug.Log("Damage upgrade purchased!");
-                    SavePlayerStats();
+                    purchased = true;
+                    Debug.Log("Damage upgrade purchased! New Damage: " + playerStats.damage);
                 }
                 else
                 {
@@ -97,8 +99,8 @@ public class ShopManager : MonoBehaviour
                 {
                     playerStats.coins -= cost;
                     playerStats.maxHealth += 10;
-                    Debug.Log("Health upgrade purchased!");
-                    SavePlayerStats();
+                    purchased = true;
+                    Debug.Log("Health upgrade purchased! New Max Health: " + playerStats.maxHealth);
                 }
                 else
                 {
@@ -112,8 +114,8 @@ public class ShopManager : MonoBehaviour
                 {
                     playerStats.coins -= cost;
                     playerStats.moveSpeed += 1;
-                    Debug.Log("Movement speed upgrade purchased!");
-                    SavePlayerStats();
+                    purchased = true;
+                    Debug.Log("Movement speed upgrade purchased! New Speed: " + playerStats.moveSpeed);
                 }
                 else
                 {
@@ -124,6 +126,16 @@ public class ShopManager : MonoBehaviour
             default:
                 Debug.LogWarning("Unknown upgrade type: " + upgradeType);
                 break;
+        }
+
+        if (purchased)
+        {
+            SavePlayerStats();
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Coins", playerStats.coins);
+            PlayerPrefs.Save();
         }
 
         UpdateCoinUI();
@@ -137,23 +149,16 @@ public class ShopManager : MonoBehaviour
         PlayerPrefs.SetFloat("MovementSpeed", playerStats.moveSpeed);
 
         PlayerPrefs.Save();
-        Debug.Log("Player stats saved!");
+        Debug.Log("Player stats saved! Coins: " + playerStats.coins);
     }
 
     public void LoadPlayerStats()
     {
-        if (PlayerPrefs.HasKey("Coins"))
-        {
-            playerStats.coins = PlayerPrefs.GetInt("Coins");
-            playerStats.damage = PlayerPrefs.GetInt("Damage");
-            playerStats.maxHealth = PlayerPrefs.GetInt("MaxHealth");
-            playerStats.moveSpeed = PlayerPrefs.GetFloat("MovementSpeed");
+        playerStats.coins = PlayerPrefs.GetInt("Coins", 0);
+        playerStats.damage = PlayerPrefs.GetInt("Damage", 10);
+        playerStats.maxHealth = PlayerPrefs.GetInt("MaxHealth", 100);
+        playerStats.moveSpeed = PlayerPrefs.GetFloat("MovementSpeed", 5f);
 
-            Debug.Log("Player stats loaded!");
-        }
-        else
-        {
-            Debug.Log("No saved data found.");
-        }
+        Debug.Log($"Player stats loaded! Coins: {playerStats.coins}, Damage: {playerStats.damage}, Health: {playerStats.maxHealth}, Speed: {playerStats.moveSpeed}");
     }
 }

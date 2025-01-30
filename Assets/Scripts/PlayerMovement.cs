@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float baseMoveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
 
     [SerializeField] private Text WINTEXT;
@@ -17,13 +17,22 @@ public class PlayerMovement : MonoBehaviour
     public Transform topEdge;
     public Transform bottomEdge;
 
+    private PlayerStats playerStats;
     private float targetRotationY = 0f;
     private Vector2 movement;
 
     private void Start()
     {
+        playerStats = FindObjectOfType<PlayerStats>();
+
+        if (playerStats == null)
+        {
+            Debug.LogWarning("PlayerStats not found! Using default move speed.");
+        }
+
         NextLevelButton.onClick.AddListener(levelManager.NextLevel);
     }
+
     void Update()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
@@ -36,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerMove(float moveX)
     {
+        float moveSpeed = (playerStats != null) ? playerStats.moveSpeed : baseMoveSpeed;
+
         Vector3 targetPosition = transform.position + (Vector3)movement * moveSpeed * Time.deltaTime;
 
         targetPosition.x = Mathf.Clamp(targetPosition.x, leftEdge.position.x, rightEdge.position.x);
@@ -46,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         if (moveX < 0)
         {
             targetRotationY = -30f;
-        }   
+        }
         else if (moveX > 0)
         {
             targetRotationY = 30f;
@@ -61,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
             Quaternion.Euler(0f, targetRotationY, 0f),
             rotationSpeed * Time.deltaTime);
     }
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Win")
@@ -72,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
             Time.timeScale = 0;
         }
     }
+
     public void HideWinUI()
     {
         WINTEXT.gameObject.SetActive(false);

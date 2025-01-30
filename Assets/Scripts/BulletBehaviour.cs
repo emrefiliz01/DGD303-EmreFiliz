@@ -5,20 +5,18 @@ using UnityEngine;
 public class BulletBehaviour : MonoBehaviour
 {
     [SerializeField] private float bulletSpeed;
-    [SerializeField] private int bulletDamage;
+    private int bulletDamage;
 
     private Vector3 direction;
+
     void Start()
     {
-
+        UpdateBulletDamage();
     }
 
     void Update()
     {
-        if (direction != null)
-        {
-            transform.position += direction * Time.deltaTime * bulletSpeed;
-        }
+        transform.position += direction * Time.deltaTime * bulletSpeed;
     }
 
     public void SetPosition(Vector3 bulletSpawnPoint)
@@ -30,7 +28,22 @@ public class BulletBehaviour : MonoBehaviour
     {
         direction = directionMove;
     }
-    
+
+    public void UpdateBulletDamage()
+    {
+        PlayerStats playerStats = FindObjectOfType<PlayerStats>();
+        if (playerStats != null)
+        {
+            bulletDamage = playerStats.damage;
+            Debug.Log("Bullet Damage Set to: " + bulletDamage);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerStats not found! Using default damage.");
+            bulletDamage = 20;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -45,19 +58,21 @@ public class BulletBehaviour : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerHealth>().TakeDamage(bulletDamage);
+            PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(bulletDamage);
+            }
 
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.tag == "BulletDestroyer")
+        if (collision.gameObject.CompareTag("BulletDestroyer"))
         {
             Destroy(gameObject);
         }
     }
-
-    
 }
-
