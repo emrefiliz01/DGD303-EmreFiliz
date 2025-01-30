@@ -14,10 +14,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float defaultCameraSize = 5f;
     [SerializeField] private float bossLevelCameraSize = 7f;
 
+    [SerializeField] private GameObject shopCanvas;
+    [SerializeField] private GameObject shopPanel;
+
     void Start()
     {
         mainMenuCanvas.SetActive(true);
         winBossLevelUI.SetActive(false);
+        shopCanvas.SetActive(false);
+        shopPanel.SetActive(false);
+
         LoadSavedLevel();
     }
 
@@ -106,5 +112,35 @@ public class LevelManager : MonoBehaviour
         LoadLevel();
         AdjustCameraAndBackground();
         Time.timeScale = 1;
+    }
+
+    public void ShowShopCanvas()
+    {
+        if (shopCanvas != null && shopPanel != null)
+        {
+            shopCanvas.SetActive(true);
+            shopPanel.SetActive(true);
+            Time.timeScale = 0;
+            Debug.Log("Shop Canvas is now visible.");
+        }
+        else
+        {
+            Debug.LogWarning("Shop Canvas or Shop Panel not assigned!");
+        }
+    }
+
+    public void HideShopCanvas()
+    {
+        if (shopCanvas != null && shopPanel != null)
+        {
+            shopCanvas.SetActive(false);
+            shopPanel.SetActive(false);
+            Time.timeScale = 1;
+            Debug.Log("Shop Canvas is now hidden.");
+        }
+        else
+        {
+            Debug.LogWarning("Shop Canvas or Shop Panel not assigned!");
+        }
     }
 }

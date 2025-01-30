@@ -1,13 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
+    [SerializeField] private GameObject shopCanvas;
     [SerializeField] private GameObject upgradeMenuUI;
+
     [SerializeField] private Button closeButton;
     [SerializeField] private Button damageUpgradeButton;
     [SerializeField] private Button healthUpgradeButton;
-    [SerializeField] private Button movementSpeedUpgradeButton;
+    [SerializeField] private Button speedUpgradeButton;
+
     [SerializeField] private Text coinCountText;
     [SerializeField] private PlayerStats playerStats;
 
@@ -15,54 +20,60 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
+        shopCanvas.SetActive(false);
         upgradeMenuUI.SetActive(false);
 
         closeButton.onClick.AddListener(CloseShop);
         damageUpgradeButton.onClick.AddListener(UpgradeDamage);
         healthUpgradeButton.onClick.AddListener(UpgradeHealth);
-        movementSpeedUpgradeButton.onClick.AddListener(UpgradeSpeed);
-    }
+        speedUpgradeButton.onClick.AddListener(UpgradeSpeed);
 
-    void Update()
-    {
-        if (isInShop && Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-        }
+        UpdateCoinUI();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
+            Debug.Log("Player entered the shop!");
             isInShop = true;
+            Time.timeScale = 0;
             ShowUpgradeMenu();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            isInShop = false;
-            HideUpgradeMenu();
         }
     }
 
     void ShowUpgradeMenu()
     {
-        upgradeMenuUI.SetActive(true);
-    }
-
-    void HideUpgradeMenu()
-    {
-        upgradeMenuUI.SetActive(false);
-        Time.timeScale = 1;
+        if (upgradeMenuUI != null)
+        {
+            shopCanvas.SetActive(true);
+            upgradeMenuUI.SetActive(true);
+            Debug.Log("Shop Panel is now visible!");
+        }
+        else
+        {
+            Debug.LogWarning("Upgrade Menu UI is not assigned.");
+        }
     }
 
     void CloseShop()
     {
         HideUpgradeMenu();
+    }
+
+    public void HideUpgradeMenu()
+    {
+        if (upgradeMenuUI != null)
+        {
+            upgradeMenuUI.SetActive(false);
+            shopCanvas.SetActive(false);
+            Time.timeScale = 1;
+            Debug.Log("Shop Panel is now hidden.");
+        }
+        else
+        {
+            Debug.LogWarning("Upgrade Menu UI is not assigned.");
+        }
     }
 
     void UpgradeDamage()
