@@ -12,6 +12,8 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private GameObject backgroundParent;
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private bool isBoss = false;
+    [SerializeField] private AudioClip explosionSound;
+    private AudioSource audioSource;
     private LevelManager levelManager;
 
     private float currentHealth;
@@ -22,6 +24,7 @@ public class EnemyBehaviour : MonoBehaviour
         fillImage.fillAmount = 1f;
 
         levelManager = FindObjectOfType<LevelManager>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void TakeDamage(int bulletDamage)
@@ -31,6 +34,11 @@ public class EnemyBehaviour : MonoBehaviour
 
         if (currentHealth <= 0f)
         {
+            if (audioSource != null && explosionSound != null)
+            {
+                audioSource.PlayOneShot(explosionSound);
+            }
+
             if (deathEffect != null)
             {
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
@@ -43,8 +51,14 @@ public class EnemyBehaviour : MonoBehaviour
                 levelManager.ShowWinUI();
             }
 
-            Destroy(gameObject);
+            StartCoroutine(DestroyEnemyWithDelay(0.2f));
         }
+    }
+
+    private IEnumerator DestroyEnemyWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 
     private void CreateSpaceCoins()
