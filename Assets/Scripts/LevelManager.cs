@@ -18,12 +18,13 @@ public class LevelManager : MonoBehaviour
     {
         mainMenuCanvas.SetActive(true);
         winBossLevelUI.SetActive(false);
+        LoadSavedLevel();
     }
 
     public void StartGame()
     {
         mainMenuCanvas.SetActive(false);
-        targetLevel = 0;
+        LoadSavedLevel();
         LoadLevel();
         AdjustCameraAndBackground();
     }
@@ -93,9 +94,15 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    private void LoadSavedLevel()
+    {
+        targetLevel = PlayerPrefs.GetInt("SavedLevel", 0);
+    }
+
     public void RestartGame()
     {
         mainMenuCanvas.SetActive(false);
+        LoadSavedLevel();
         LoadLevel();
         AdjustCameraAndBackground();
         Time.timeScale = 1;
